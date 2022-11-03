@@ -82,6 +82,11 @@ public class TarefaController implements Serializable{
 		tarefa = new Tarefa();
 	}
 	
+	public void editarTarefa(String idS) {
+		Long id = Long.valueOf(idS);
+		tarefa = tarefasService.getId(id);
+	}
+	
 	public void disporTarefa() {
 		tarefa = null;
 	}
@@ -98,6 +103,12 @@ public class TarefaController implements Serializable{
 		pesquisar();
 	}
 	
+	public void concluir(Tarefa tarefa){
+		tarefa.setSituacao(!tarefa.getSituacao());
+		tarefasService.salvar(tarefa);
+		pesquisar();
+	}
+	
 	public void pesquisar() {
 		tarefaList = tarefasService.pesquisar(pesquisaDTO);
 		tarefaList.forEach(c -> System.out.println(c.getTitulo()));
@@ -109,5 +120,9 @@ public class TarefaController implements Serializable{
 	
 	public TarefasService getTarefasService() {
 		return tarefasService;
+	}
+
+	public void setTarefa(Tarefa tarefa) {
+		this.tarefa = tarefa;
 	}
 }

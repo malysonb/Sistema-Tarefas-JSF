@@ -44,9 +44,9 @@ public class Tarefa implements Serializable{
 	@Column(name = "descricao", nullable = false, length = 2048)
 	private String descricao;
 	
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "resposavel")
+	@NotNull
 	private Colaborador responsavel;
 	
 	@NotNull

@@ -38,6 +38,10 @@ public class TarefasService implements Serializable {
 		return tarefas.getAll();
 	}
 	
+	public Tarefa getId(Long id) {
+		return tarefas.getById(id);
+	}
+	
 	@Transactional
 	public List<Tarefa> pesquisar(PesquisaDTO dto){
 		Colaborador col = colServ.getById(dto.getIdResp());
