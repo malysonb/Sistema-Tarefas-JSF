@@ -6,8 +6,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="WEB-INF/template/padrao.xhtml">
 
-	<ui:define name="titulo">
-	Gerenciar Tarefas 
+<ui:define name="titulo">
+	Agenda de tarefas
 </ui:define>
 
 	<ui:define name="conteudo">
@@ -81,11 +81,12 @@
 						actionListener="#{taBean.excluir(tarefa)}"
 						update=":form:resultado" />|
 					<p:commandLink
-						value="#{tarefa.situacao == true ? 'Tornar em andamento' : 'Concluir'}"
+						value="#{tarefa.situacao == true ? 'Desfazer' : 'Concluir'}"
 						actionListener="#{taBean.concluir(tarefa)}"
 						update=":form:resultado" />
 				</p:column>
 			</p:dataTable>
+			
 			<p:dialog id="tarefaDialog" positionType="fixed" header="Tarefa"
 				widgetVar="tarefaWidgetVar" modal="true" resizable="false"
 				closeOnEscape="true">
@@ -101,7 +102,7 @@
 
 					<p:outputLabel value="Descricao: " for="descricao" />
 					<p:inputTextarea id="descricao" value="#{taBean.tarefa.descricao}"
-						rows="5" cols="100" autoResize="false" />
+						rows="5" cols="80" autoResize="false" />
 
 					<p:outputLabel value="Responsável: " for="respT" />
 					<h:panelGroup>

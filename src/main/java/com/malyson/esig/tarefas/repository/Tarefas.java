@@ -52,7 +52,7 @@ public class Tarefas implements Serializable{
 		}
 		if(!desc.isBlank()) {
 			queryString += params > 0 ? "AND " : "";
-			queryString += "(titulo like :desc OR descricao like :desc) ";
+			queryString += "(UPPER(titulo) like UPPER(:desc) OR UPPER(descricao) like UPPER(:desc)) ";
 			params++;
 		}
 		if(idResp != null) {

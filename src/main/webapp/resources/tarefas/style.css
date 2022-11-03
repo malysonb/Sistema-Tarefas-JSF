@@ -7,3 +7,13 @@ p {
 header{
 	background-color: lightblue;
 }
+
+footer{
+	font-family: Tahoma, Verdana, sans-serif;
+	text-align:center;
+	background-color: #dddddd;
+}
+
+.titulo{
+	font-family: Tahoma, Verdana, sans-serif;
+}
