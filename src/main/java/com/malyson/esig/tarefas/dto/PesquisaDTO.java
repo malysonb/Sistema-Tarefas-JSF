@@ -2,8 +2,6 @@ package com.malyson.esig.tarefas.dto;
 
 import java.io.Serializable;
 
-import com.malyson.esig.tarefas.model.Colaborador;
-
 public class PesquisaDTO implements Serializable {
 
 	/**
@@ -15,7 +13,7 @@ public class PesquisaDTO implements Serializable {
 	
 	private String descricao;
 	
-	private Colaborador idResp;
+	private Long idResp;
 	
 	private Boolean situacao;
 
@@ -43,11 +41,11 @@ public class PesquisaDTO implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public Colaborador getIdResp() {
+	public Long getIdResp() {
 		return idResp;
 	}
 
-	public void setIdResp(Colaborador idResp) {
+	public void setIdResp(Long idResp) {
 		this.idResp = idResp;
 	}
 	

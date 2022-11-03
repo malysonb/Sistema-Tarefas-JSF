@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.malyson.esig.tarefas.enums.Prioridade;
 
 import jakarta.persistence.Column;
@@ -32,23 +36,29 @@ public class Tarefa implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank
 	@Column(name = "titulo", nullable = false)
 	private String titulo;
 	
+	@NotBlank
 	@Column(name = "descricao", nullable = false, length = 2048)
 	private String descricao;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "resposavel")
 	private Colaborador responsavel;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Prioridade prioridade;
 	
+	@NotNull
 	@Column(name = "deadline", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private LocalDateTime deadline;
 	
+	@NotNull
 	@Column(name = "situacao")
 	private Boolean situacao;
 

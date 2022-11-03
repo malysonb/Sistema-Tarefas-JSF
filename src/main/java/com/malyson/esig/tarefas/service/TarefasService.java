@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.malyson.esig.tarefas.dto.PesquisaDTO;
+import com.malyson.esig.tarefas.model.Colaborador;
 import com.malyson.esig.tarefas.model.Tarefa;
 import com.malyson.esig.tarefas.repository.Tarefas;
 import com.malyson.esig.tarefas.util.Transactional;
@@ -19,6 +20,9 @@ public class TarefasService implements Serializable {
 
 	@Inject
 	private Tarefas tarefas;
+	
+	@Inject
+	private ColaboradorService colServ;
 	
 	@Transactional
 	public void salvar(Tarefa tarefa) {
@@ -34,7 +38,9 @@ public class TarefasService implements Serializable {
 		return tarefas.getAll();
 	}
 	
+	@Transactional
 	public List<Tarefa> pesquisar(PesquisaDTO dto){
-		return tarefas.buscar(dto.getId(), dto.getDescricao(), dto.getIdResp(), dto.getSituacao());
+		Colaborador col = colServ.getById(dto.getIdResp());
+		return tarefas.buscar(dto.getId(), dto.getDescricao(), col, dto.getSituacao());
 	}
 }

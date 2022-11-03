@@ -1,8 +1,11 @@
 package com.malyson.esig.tarefas.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -11,7 +14,6 @@ import com.malyson.esig.tarefas.dto.PesquisaDTO;
 import com.malyson.esig.tarefas.enums.Prioridade;
 import com.malyson.esig.tarefas.model.Colaborador;
 import com.malyson.esig.tarefas.model.Tarefa;
-import com.malyson.esig.tarefas.repository.Tarefas;
 import com.malyson.esig.tarefas.service.ColaboradorService;
 import com.malyson.esig.tarefas.service.TarefasService;
 
@@ -24,9 +26,8 @@ public class TarefaController implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Tarefa tarefa = new Tarefa();
+	private Tarefa tarefa = null;
 	
-	private PesquisaDTO pesquisaDTO = new PesquisaDTO();
 	
 	@Inject
 	private ColaboradorService colab;
@@ -34,9 +35,16 @@ public class TarefaController implements Serializable{
 	@Inject
 	private TarefasService tarefasService;
 	
-	private List<Tarefa> tarefaList;
+	private PesquisaDTO pesquisaDTO = new PesquisaDTO();
+	
+	private List<Tarefa> tarefaList = new ArrayList<>();
 	
 	private Long idResp;
+	
+	@PostConstruct
+	private void init() {
+		tarefaList = tarefasService.getAll();
+	}
 	
 	public Long getIdResp() {
 		return idResp;
@@ -69,6 +77,14 @@ public class TarefaController implements Serializable{
 		List<Colaborador> colabs = colab.getAll(); 
 		return colabs;
 	}
+	
+	public void novaTarefa() {
+		tarefa = new Tarefa();
+	}
+	
+	public void disporTarefa() {
+		tarefa = null;
+	}
 
 	public String salvar() {
 		tarefa.setResponsavel(colab.getById(idResp));
@@ -77,9 +93,14 @@ public class TarefaController implements Serializable{
 		return "ListTarefa?faces-redirect=true";
 	}
 	
+	public void excluir(Tarefa tarefa){
+		tarefasService.deletar(tarefa);
+		pesquisar();
+	}
+	
 	public void pesquisar() {
 		tarefaList = tarefasService.pesquisar(pesquisaDTO);
-		System.out.println(tarefaList);
+		tarefaList.forEach(c -> System.out.println(c.getTitulo()));
 	}
 
 	public ColaboradorService getColab() {

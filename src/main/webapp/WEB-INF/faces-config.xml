@@ -8,6 +8,7 @@
 		<locale-config>
 			<default-locale>pt_BR</default-locale>
 		</locale-config>
+		<message-bundle>com.malyson.esig.tarefas.Messages</message-bundle>
 	</application>
 
 </faces-config>

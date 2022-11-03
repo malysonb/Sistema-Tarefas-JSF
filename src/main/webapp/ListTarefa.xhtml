@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html 	xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://xmlns.jcp.org/jsf/html"
-		xmlns:f="http://xmlns.jcp.org/jsf/core"
-		xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 
-	<meta charset="UTF-8"/>
+	<meta charset="UTF-8" />
 	<title>Cadastrar Tarefa</title>
 	<h:outputStylesheet library="tarefas" name="style.css" />
-	<h:outputScript name="locales/locale-nl.js" library="primefaces"/>
+	<h:outputScript name="locales/locale-nl.js" library="primefaces" />
 
 </h:head>
 <h:body>
@@ -19,16 +19,21 @@
 
 	<div>
 		<h:form>
+			<p:commandButton value="Adicionar Tarefa" update="tarefaDialog"
+				actionListener="#{taBean.novaTarefa}"
+				oncomplete="PF('tarefaWidgetVar').show()" />
+			<p:messages id="messages" showDetail="false" closable="true"/>
 			<h:panelGrid columns="2">
-				<p:outputLabel value="Número: " for="numero"/>
-				<p:inputText id="numero" value="#{taBean.pesquisaDTO.id}"/>
-				<p:outputLabel value="Título/Descrição: " for="desc"/>
-				<p:inputText id="desc" value="#{taBean.pesquisaDTO.descricao}"/>
-				<p:outputLabel value="Responsável: " for="resp"/>
+				<p:outputLabel value="Número: " for="numero" />
+				<p:inputNumber id="numero" value="#{taBean.pesquisaDTO.id}" />
+				<p:outputLabel value="Título/Descrição: " for="desc" />
+				<p:inputText id="desc" value="#{taBean.pesquisaDTO.descricao}" />
+				<p:outputLabel value="Responsável: " for="resp" />
 				<h:panelGroup>
 					<p:selectOneMenu id="resp" value="#{taBean.pesquisaDTO.idResp}">
 						<f:selectItem itemLabel="Selecione uma opção" />
-						<f:selectItems value="#{taBean.colab.all}" var="colaborador" itemLabel="#{colaborador.nome}" itemValue="#{colaborador}" />
+						<f:selectItems value="#{taBean.colab.all}" var="colaborador"
+							itemLabel="#{colaborador.nome}" itemValue="#{colaborador.id}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value=" Prioridade: " for="tipo" />
@@ -36,11 +41,56 @@
 						<f:selectItem itemValue="false" itemLabel="Em andamento" />
 						<f:selectItem itemValue="true" itemLabel="Concluido" />
 					</p:selectOneMenu>
-					<p:commandButton value="Buscar Tarefas" action="#{taBean.pesquisar}"/>
 				</h:panelGroup>
+				<p:commandButton value="Buscar Tarefas"
+					actionListener="#{taBean.pesquisar}" update="resultado messages" />
 			</h:panelGrid>
-			<p:dataTable value="#{taBean.tarefaList}" var="tarefa">
-				<p:column headerText="Número">
+
+			<p:dialog id="tarefaDialog" header="Adicionar Tarefa"
+				widgetVar="tarefaWidgetVar" modal="true" resizable="false"
+				closeOnEscape="true">
+				<p:ajax event="close" update="tarefaDialog"
+					listener="#{taBean.disporTarefa}" />
+				<p:messages id="modalMensagem"/>
+				<h:panelGrid columns="2" id="modalT"
+					rendered="#{taBean.tarefa ne null}">
+					<p:outputLabel value="Titulo: " for="tituloT" />
+					<p:inputText id="tituloT" value="#{taBean.tarefa.titulo}"
+						/>
+
+					<p:outputLabel value="Descricao: " for="descricao" />
+					<h:inputTextarea id="descricao" value="#{taBean.tarefa.descricao}"
+						rows="5" cols="100" autoResize="false"/>
+
+					<p:outputLabel value="Responsável: " for="respT" />
+					<h:panelGroup>
+						<p:selectOneMenu id="respT" value="#{taBean.idResp}">
+							<f:selectItem itemLabel="Selecione uma opção" />
+							<f:selectItems value="#{taBean.colab.all}" var="colaborador"
+								itemLabel="#{colaborador.nome}" itemValue="#{colaborador.id}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value=" Prioridade: " for="tipoT" />
+						<p:selectOneMenu id="tipoT" value="#{taBean.tarefa.prioridade}" >
+							<f:selectItem itemLabel="Selecione uma opção" />
+							<f:selectItems value="#{taBean.prioridadesEnum}" var="prioridade"
+								itemLabel="#{prioridade}" itemValue="#{prioridade}" />
+						</p:selectOneMenu>
+
+					</h:panelGroup>
+					<p:outputLabel value="DeadLine: " for="dataT" />
+					<p:datePicker id="dataT" showTime="true"
+						value="#{taBean.tarefa.deadline}" locale="pt"/>
+
+					<p:commandButton value="Salvar" action="#{taBean.salvar}"
+						update="resultado modalT modalMensagem"
+						oncomplete="if (!args.validationFailed) PF('tarefaWidgetVar').hide()" />
+				</h:panelGrid>
+			</p:dialog>
+
+			<p:dataTable value="#{taBean.tarefaList}" id="resultado" var="tarefa"
+				paginator="true" rows="5" paginatorPosition="bottom">
+				<p:column headerText="Número" sortBy="#{tarefa.id}" sortOrder="desc">
 					<h:outputText value="#{tarefa.id}" />
 				</p:column>
 				<p:column headerText="Titulo">
@@ -51,16 +101,14 @@
 				</p:column>
 				<p:column headerText="Acoes">
 					<h:outputText value="Editar " />|
-					<h:outputText value="Excluir " />|
+					<h:commandLink value="Excluir " actionListener="#{taBean.excluir(tarefa)}" update=":formId:resultado"/>|
 					<h:outputText value="Concluir" />
 				</p:column>
 			</p:dataTable>
 		</h:form>
 	</div>
 
-	<footer>
-		futér
-	</footer>
+	<footer> futér </footer>
 
 </h:body>
 </html>

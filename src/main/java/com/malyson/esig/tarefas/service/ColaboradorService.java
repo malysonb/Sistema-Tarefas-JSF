@@ -26,7 +26,7 @@ public class ColaboradorService implements Serializable {
 	
 	@Transactional
 	public Colaborador getById(Long id) {
-		return colabs.getById(id);
+		return id != null ? colabs.getById(id) : null;
 	}
 	
 }
