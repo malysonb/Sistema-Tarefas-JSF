@@ -1,9 +1,11 @@
 package com.malyson.esig.tarefas.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import com.malyson.esig.tarefas.dto.PesquisaDTO;
 import com.malyson.esig.tarefas.model.Tarefa;
 import com.malyson.esig.tarefas.repository.Tarefas;
 import com.malyson.esig.tarefas.util.Transactional;
@@ -26,5 +28,13 @@ public class TarefasService implements Serializable {
 	@Transactional
 	public void deletar(Tarefa tarefa) {
 		tarefas.deletar(tarefa);
+	}
+	
+	public List<Tarefa> getAll() {
+		return tarefas.getAll();
+	}
+	
+	public List<Tarefa> pesquisar(PesquisaDTO dto){
+		return tarefas.buscar(dto.getId(), dto.getDescricao(), dto.getIdResp(), dto.getSituacao());
 	}
 }

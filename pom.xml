@@ -26,6 +26,13 @@
 	    <artifactId>primefaces</artifactId>
 	    <version>12.0.0</version>
 	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.jboss.weld.servlet/weld-servlet -->
+	<dependency>
+    	<groupId>org.jboss.weld.servlet</groupId>
+    	<artifactId>weld-servlet</artifactId>
+    	<version>2.4.8.Final</version>
+	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 	<dependency>
@@ -35,28 +42,11 @@
     	<scope>provided</scope>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/org.wildfly.core/wildfly-server -->
 	<dependency>
-    	<groupId>org.wildfly.core</groupId>
-    	<artifactId>wildfly-server</artifactId>
-    	<version>19.0.0.Final</version>
-	</dependency>
-
-	
-	<!-- https://mvnrepository.com/artifact/org.jboss.weld.servlet/weld-servlet -->
-	<dependency>
-    	<groupId>org.jboss.weld.servlet</groupId>
-    	<artifactId>weld-servlet</artifactId>
-    	<version>2.4.8.Final</version>
-	</dependency>
-
-
-	
-	<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-	<dependency>
-	    <groupId>org.hibernate.validator</groupId>
-	    <artifactId>hibernate-validator</artifactId>
-	    <version>8.0.0.Final</version>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-validator</artifactId>
+		<version>5.3.2.Final</version>
+		<scope>compile</scope>
 	</dependency>
 
 	<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
@@ -72,20 +62,6 @@
 	    <groupId>org.postgresql</groupId>
 	    <artifactId>postgresql</artifactId>
 	    <version>42.5.0</version>
-	</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/javax.el/javax.el-api -->
-	<dependency>
-    	<groupId>javax.el</groupId>
-    	<artifactId>javax.el-api</artifactId>
-    	<version>3.0.1-b06</version>
-	</dependency>
-
-	<!-- https://mvnrepository.com/artifact/org.glassfish/javax.el -->
-	<dependency>
-    	<groupId>org.glassfish</groupId>
-    	<artifactId>javax.el</artifactId>
-    	<version>3.0.1-b12</version>
 	</dependency>
 
 

@@ -7,11 +7,13 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.malyson.esig.tarefas.dto.PesquisaDTO;
 import com.malyson.esig.tarefas.enums.Prioridade;
 import com.malyson.esig.tarefas.model.Colaborador;
 import com.malyson.esig.tarefas.model.Tarefa;
 import com.malyson.esig.tarefas.repository.Tarefas;
 import com.malyson.esig.tarefas.service.ColaboradorService;
+import com.malyson.esig.tarefas.service.TarefasService;
 
 @Named(value = "taBean")
 @ViewScoped
@@ -24,18 +26,21 @@ public class TarefaController implements Serializable{
 	
 	private Tarefa tarefa = new Tarefa();
 	
+	private PesquisaDTO pesquisaDTO = new PesquisaDTO();
+	
 	@Inject
 	private ColaboradorService colab;
 	
 	@Inject
-	private Tarefas tarefas;
+	private TarefasService tarefasService;
+	
+	private List<Tarefa> tarefaList;
 	
 	private Long idResp;
 	
 	public Long getIdResp() {
 		return idResp;
 	}
-
 
 	public void setIdResp(Long idResp) {
 		this.idResp = idResp;
@@ -44,6 +49,14 @@ public class TarefaController implements Serializable{
 
 	public Tarefa getTarefa() {
 		return tarefa;
+	}
+	
+	public List<Tarefa> getTarefaList() {
+		return tarefaList;
+	}
+	
+	public PesquisaDTO getPesquisaDTO() {
+		return pesquisaDTO;
 	}
 	
 	
@@ -57,13 +70,23 @@ public class TarefaController implements Serializable{
 		return colabs;
 	}
 
-	public void salvar() {
+	public String salvar() {
 		tarefa.setResponsavel(colab.getById(idResp));
-		System.out.println("Aqui seu animal: " + tarefa.getTitulo() + " - " + tarefa.getResponsavel().getNome());
+		tarefa.setSituacao(false);
+		tarefasService.salvar(tarefa);
+		return "ListTarefa?faces-redirect=true";
 	}
-
+	
+	public void pesquisar() {
+		tarefaList = tarefasService.pesquisar(pesquisaDTO);
+		System.out.println(tarefaList);
+	}
 
 	public ColaboradorService getColab() {
 		return colab;
+	}
+	
+	public TarefasService getTarefasService() {
+		return tarefasService;
 	}
 }
