@@ -46,37 +46,37 @@ O projeto agora deve estar rodando em seu localhost:8080/tarefas/
 
 ### <b> Oque foi feito: </br>
 
-[X] a) Aplicação Web utilizando JSF
+[x] a) Aplicação Web utilizando JSF
 
-[X] b) Persistencia em banco de dados Postgres
+[x] b) Persistencia em banco de dados Postgres
 
-[X] c) JPA utilizado
+[x] c) JPA utilizado
 
-[X] d) Testes de unidades com jUnit 5
+[x] d) Testes de unidades com jUnit 5
 
-[X] e) Projeto publicado no Heroku
+[x] e) Projeto publicado no Heroku
 
 f) Outros:
 
-[X] Criar uma tarefa
+[x] Criar uma tarefa
 
-[X] Atualizar uma tarefa
+[x] Atualizar uma tarefa
 
-[X] Remover uma tarefa
+[x] Remover uma tarefa
 
-[X] Listar tarefas
+[x] Listar tarefas
 
-[X] Concluir tarefa
+[x] Concluir tarefa
 
-[X] Pagina de pesquisa de Tarefas e Responsáveis
+[x] Pagina de pesquisa de Tarefas e Responsáveis
 
-[X] Validação de formulários
+[x] Validação de formulários
 
-[X] Adicionar e remover Responsáveis
+[x] Adicionar e remover Responsáveis
 
-[X] Listar Responsáveis
+[x] Listar Responsáveis
 
-[X] UI do JSF com PrimeFaces
+[x] UI do JSF com PrimeFaces
 
 Listagem e busca de tarefas
 ![Listagem de tarefas](imagensRepo/imagem1.png)
