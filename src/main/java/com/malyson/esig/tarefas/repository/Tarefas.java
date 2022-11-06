@@ -8,8 +8,9 @@ import javax.inject.Inject;
 import com.malyson.esig.tarefas.model.Colaborador;
 import com.malyson.esig.tarefas.model.Tarefa;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 public class Tarefas implements Serializable{
 
@@ -57,6 +58,10 @@ public class Tarefas implements Serializable{
 	
 	public void deletar(Tarefa tarefa) {
 		tarefa = getById(tarefa.getId()); // Pegando instancia real
-		em.remove(tarefa);
+		tarefa.setResponsavel(null);
+		Query q = em.createQuery("DELETE FROM Tarefa WHERE id = :id");
+		q.setParameter("id", tarefa.getId());
+		q.executeUpdate();
+		
 	}
 }

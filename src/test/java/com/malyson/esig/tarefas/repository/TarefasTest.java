@@ -5,7 +5,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 
 @ExtendWith(MockitoExtension.class)
 public class TarefasTest {

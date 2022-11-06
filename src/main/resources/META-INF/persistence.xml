@@ -5,23 +5,25 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-    <persistence-unit name="TarefasPU">
+    <persistence-unit name="TarefasPU" transaction-type="RESOURCE_LOCAL">
 
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
-            <property name="jakarta.persistence.jdbc.url" value="$JDBC_DATABASE_URL" /> <!-- BD Mane -->
-            <property name="jakarta.persistence.jdbc.user" value="$JDBC_DATABASE_USERNAME" /> <!-- DB User -->
-            <property name="jakarta.persistence.jdbc.password" value="$JDBC_DATABASE_PASSWORD" /> <!-- DB Password -->
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://ec2-44-205-177-160.compute-1.amazonaws.com:5432/dbfr3am4jbsm80?sslmode=require" /> <!-- BD Mane -->
+            <property name="javax.persistence.jdbc.user" value="zgjtonsxwuzhrj" /> <!-- DB User -->
+            <property name="javax.persistence.jdbc.password" value="7ca44cc3e849ef70c46f2c93704780a3e8ee02beec13601f397e01fefa727e66" /> <!-- DB Password -->
             
-            <property name="jakarta.persistence.schema-generation.create-source" value="metadata"/>
+            <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
 
 	    	<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/> <!-- DB Dialect -->
-	    	<property name="jakarta.persistence.schema-generation.database.action" value="update" />
-            <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/start.sql"/>
+	    	<property name="javax.persistence.schema-generation.database.action" value="update" />
+            <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/start.sql"/>
 	    
             <property name="hibernate.show_sql" value="true" /> <!-- Show SQL in console -->
             <property name="hibernate.format_sql" value="true" /> <!-- Show SQL formatted -->
         </properties>
+        
 
     </persistence-unit>
 

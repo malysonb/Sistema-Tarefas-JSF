@@ -7,8 +7,8 @@ import javax.inject.Inject;
 
 import com.malyson.esig.tarefas.model.Colaborador;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 public class Colaboradores implements Serializable{
 

@@ -8,15 +8,15 @@ import java.util.stream.Collectors;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "colaborador")
@@ -41,7 +41,7 @@ public class Colaborador implements Serializable {
 	@Column(name = "setor", nullable = false)
 	private String setor;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "responsavel", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "responsavel", fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Tarefa> tarefas;
 
 	public Long getId() {
