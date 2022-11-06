@@ -9,9 +9,9 @@
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost/tarefas" /> <!-- BD Mane -->
-            <property name="jakarta.persistence.jdbc.user" value="postgres" /> <!-- DB User -->
-            <property name="jakarta.persistence.jdbc.password" value="postgres" /> <!-- DB Password -->
+            <property name="jakarta.persistence.jdbc.url" value="$JDBC_DATABASE_URL" /> <!-- BD Mane -->
+            <property name="jakarta.persistence.jdbc.user" value="$JDBC_DATABASE_USERNAME" /> <!-- DB User -->
+            <property name="jakarta.persistence.jdbc.password" value="$JDBC_DATABASE_PASSWORD" /> <!-- DB Password -->
             
             <property name="jakarta.persistence.schema-generation.create-source" value="metadata"/>
 
