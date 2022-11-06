@@ -1,7 +1,6 @@
 package com.malyson.esig.tarefas.repository;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,8 +30,17 @@ public class Colaboradores implements Serializable{
 	
 	public List<Colaborador> getAll() {
 		TypedQuery<Colaborador> query = em.createQuery("FROM Colaborador", Colaborador.class);
-		if(query.getResultList().isEmpty())
-			return new ArrayList<>();
+		return query.getResultList();
+	}
+	
+	public List<Colaborador> pesquisar(Long id, String nome, String setor){
+		String queryString = "FROM Colaborador WHERE (:id is null or id = :id) "+
+							 "AND (:nome is null or UPPER(nome) like UPPER(:nome) ) "+
+							 "AND (:setor is null or UPPER(setor) like UPPER(:setor))";
+		TypedQuery<Colaborador> query = em.createQuery(queryString, Colaborador.class);
+		query.setParameter("id", id);
+		query.setParameter("nome", "%" + nome + "%");
+		query.setParameter("setor", "%" + setor + "%");
 		return query.getResultList();
 	}
 	

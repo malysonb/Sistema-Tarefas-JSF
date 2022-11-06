@@ -1,10 +1,7 @@
 package com.malyson.esig.tarefas.repository;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -38,40 +35,19 @@ public class Tarefas implements Serializable{
 	
 	public List<Tarefa> getAll() {
 		TypedQuery<Tarefa> query = em.createQuery("FROM Tarefa", Tarefa.class);
-		if(query.getResultList().isEmpty())
-			return new ArrayList<>();
 		return query.getResultList();
 	}
 	
 	public List<Tarefa> buscar(Long id, String desc, Colaborador idResp, Boolean situacao) {
-		String queryString = "FROM Tarefa WHERE ";
-		int params = 0;
-		if(id != null) {
-			queryString += "id = :id ";
-			params++;
-		}
-		if(!desc.isBlank()) {
-			queryString += params > 0 ? "AND " : "";
-			queryString += "(UPPER(titulo) like UPPER(:desc) OR UPPER(descricao) like UPPER(:desc)) ";
-			params++;
-		}
-		if(idResp != null) {
-			queryString += params > 0 ? "AND " : "";
-			queryString += "responsavel = :idResp ";
-			params++;
-	
-		}
-		if(situacao != null) {
-			queryString += params > 0 ? "AND " : "";
-			queryString += "situacao = :situacao ";
-			params++;
-	
-		}
+		String queryString = "FROM Tarefa WHERE (:id is null or id = :id) " +
+							 "AND (:desc is null or (UPPER(titulo) like UPPER(:desc) OR UPPER(descricao) like UPPER(:desc))) "+
+							 "AND (:idResp is null or responsavel = :idResp) "+
+							 "AND (:situacao is null or situacao = :situacao)";
 		TypedQuery<Tarefa> query = em.createQuery(queryString, Tarefa.class);
-		if(id != null) query.setParameter("id", id);
-		if(!desc.isBlank()) query.setParameter("desc", "%" + desc + "%");
-		if(idResp != null) query.setParameter("idResp", idResp);
-		if(situacao != null) query.setParameter("situacao", situacao);
+		query.setParameter("id", id);
+		query.setParameter("desc", "%" + desc + "%");
+		query.setParameter("idResp", idResp);
+		query.setParameter("situacao", situacao);
 		return query.getResultList();
 	}
 	
@@ -80,7 +56,7 @@ public class Tarefas implements Serializable{
 	}
 	
 	public void deletar(Tarefa tarefa) {
-		tarefa = getById(tarefa.getId());
+		tarefa = getById(tarefa.getId()); // Pegando instancia real
 		em.remove(tarefa);
 	}
 }

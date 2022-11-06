@@ -3,7 +3,7 @@
   <display-name>tarefas</display-name>
   
   <welcome-file-list>
-  	<welcome-file>NovaTarefa.xhtml</welcome-file>
+  	<welcome-file>ListTarefa.xhtml</welcome-file>
   </welcome-file-list>
   
   <context-param>

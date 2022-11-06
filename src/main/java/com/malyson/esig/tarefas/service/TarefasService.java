@@ -34,17 +34,19 @@ public class TarefasService implements Serializable {
 		tarefas.deletar(tarefa);
 	}
 	
+	@Transactional
 	public List<Tarefa> getAll() {
 		return tarefas.getAll();
 	}
 	
+	@Transactional
 	public Tarefa getId(Long id) {
 		return tarefas.getById(id);
 	}
 	
 	@Transactional
 	public List<Tarefa> pesquisar(PesquisaDTO dto){
-		Colaborador col = colServ.getById(dto.getIdResp());
+		Colaborador col = dto.getIdResp() != null ? colServ.getById(dto.getIdResp()) : null;
 		return tarefas.buscar(dto.getId(), dto.getDescricao(), col, dto.getSituacao());
 	}
 }

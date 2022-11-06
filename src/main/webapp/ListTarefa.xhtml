@@ -16,7 +16,7 @@
 				<p:menuitem value="Gerenciar Tarefas" outcome="ListTarefa">
 					<f:param name="i" value="0"/>
 				</p:menuitem>
-				<p:menuitem value="Gerenciar Colaboradores" outcome="ListTarefa">
+				<p:menuitem value="Gerenciar Colaboradores" outcome="ListColaborador">
 					<f:param name="i" value="1"/>
 				</p:menuitem>
 			</p:tabMenu>
@@ -31,7 +31,7 @@
 				<p:inputNumber id="numero" value="#{taBean.pesquisaDTO.id}" />
 				<p:outputLabel value="Título/Descrição: " for="desc" />
 				<p:inputText id="desc" value="#{taBean.pesquisaDTO.descricao}"
-					style="width: 550px" />
+					style="width: 100%" />
 				<p:outputLabel value="Responsável: " for="resp" />
 				<h:panelGroup>
 					<p:selectOneMenu id="resp" value="#{taBean.pesquisaDTO.idResp}">
@@ -53,7 +53,7 @@
 			</h:panelGrid>
 
 			<p:dataTable showGridlines="true" value="#{taBean.tarefaList}"
-				id="resultado" var="tarefa" paginator="true" rows="5"
+				id="resultado" var="tarefa" paginator="true" rows="10"
 				paginatorPosition="bottom">
 				<p:column headerText="Número" style="width:10%; text-align: center;" sortBy="#{tarefa.id}" sortOrder="desc">
 					<h:outputText value="#{tarefa.id}" />
@@ -71,7 +71,7 @@
 							target="#{taBean.tarefa}" />
 						<p:resetInput target=":form:tarefaView" />
 					</p:commandLink>|
-					<p:commandLink value="Editar " update=":form:tarefaDialog"
+					<p:commandLink value="Editar "  update=":form:tarefaDialog"
 						oncomplete="PF('tarefaWidgetVar').show()" process="@this">
 						<f:setPropertyActionListener value="#{tarefa}"
 							target="#{taBean.tarefa}" />
@@ -102,7 +102,7 @@
 
 					<p:outputLabel value="Descricao: " for="descricao" />
 					<p:inputTextarea id="descricao" value="#{taBean.tarefa.descricao}"
-						rows="5" cols="80" autoResize="false" />
+						rows="5" cols="80" autoResize="false" style="min-width: 482px"/>
 
 					<p:outputLabel value="Responsável: " for="respT" />
 					<h:panelGroup>
@@ -130,17 +130,18 @@
 						oncomplete="if (!args.validationFailed) PF('tarefaWidgetVar').hide()" />
 				</h:panelGrid>
 			</p:dialog>
+			
 			<p:dialog id="tarefaView" positionType="fixed" header="Tarefa"
 				widgetVar="tarefaViewVar" modal="true" resizable="false"
 				closeOnEscape="true">
 				<p:ajax event="close" update="tarefaView"
 					listener="#{taBean.disporTarefa}" />
-				<p:panelGrid columns="2" id="modalView"
+				<p:panelGrid columns="2" id="modalView" style="min-width: 500px; max-width: 500px; overflow-wrap: break-word;"
 					rendered="#{taBean.tarefa ne null}">
 					<p:outputLabel value="Titulo: " />
 					<p:outputLabel value="#{taBean.tarefa.titulo}" />
 					<p:outputLabel value="Descricao: " />
-					<p:outputLabel value="#{taBean.tarefa.descricao}" />
+					<p:outputLabel value="#{taBean.tarefa.descricao}"/>
 					<p:outputLabel value="Responsável: " />
 					<p:outputLabel value="#{taBean.tarefa.responsavel.nome}" />
 					<p:outputLabel value="Prioridade: " />
@@ -148,6 +149,8 @@
 					<p:outputLabel value="Situacao: " />
 					<p:outputLabel
 						value="#{taBean.tarefa.situacao == true ? 'Concluido' : 'Em andamento'}" />
+					<p:outputLabel value="DeadLine: " />
+					<p:outputLabel value="#{taBean.tarefa.deadlineString}" />
 				</p:panelGrid>
 			</p:dialog>
 		</h:form>

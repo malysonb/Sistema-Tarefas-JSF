@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,26 +25,114 @@ public class TarefaController implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Tarefa tarefa = null;
-	
-	
-	@Inject
-	private ColaboradorService colab;
+	private Tarefa tarefa = null; // Objeto ponteiro para dialogos do view.
 	
 	@Inject
-	private TarefasService tarefasService;
+	private ColaboradorService colab; // Serviços do repositório.
 	
+	@Inject
+	private TarefasService tarefasService; // Serviços do repositório.
+	
+	// Objeto de transferencia para pesquisa.
 	private PesquisaDTO pesquisaDTO = new PesquisaDTO();
 	
+	// Lista de tarefas a ser exibido no view.
 	private List<Tarefa> tarefaList = new ArrayList<>();
 	
+	// id do colaborador responsável pela tarefa.
 	private Long idResp;
 	
+	/**
+	 * Metodo reproduzido ao inicio do escopo logo após o construtor.
+	 * preenche inicialmente a lista de tarefas.
+	 */
 	@PostConstruct
 	private void init() {
 		tarefaList = tarefasService.getAll();
 	}
 	
+	/**
+	 * Prepara uma nova tarefa à ser adicionada.
+	 */
+	public void novaTarefa() {
+		tarefa = new Tarefa();
+	}
+	
+	/**
+	 * Edita uma tarefa
+	 * @param idS id da tarefa em string.
+	 */
+	public void editarTarefa(String idS) {
+		Long id = Long.valueOf(idS);
+		tarefa = tarefasService.getId(id);
+	}
+	
+	/**
+	 * Torna nulo a tarefa ponteiro da view.
+	 */
+	public void disporTarefa() {
+		tarefa = null;
+	}
+
+	/**
+	 * Cria ou edita uma tarefa no banco de dados.
+	 */
+	public void salvar() {
+		
+		tarefa.setResponsavel(colab.getById(idResp));
+		tarefa.setSituacao(false);
+		tarefasService.salvar(tarefa);
+		pesquisar();
+	}
+	
+	/**
+	 * Deleta uma tarefa do banco de dados.
+	 * @param tarefa Objeto tarefa.
+	 */
+	public void excluir(Tarefa tarefa){
+		tarefasService.deletar(tarefa);
+		pesquisar();
+	}
+	
+	/**
+	 * Alterna a conclusão de uma tarefa.
+	 * @param tarefa Objeto tarefa.
+	 */
+	public void concluir(Tarefa tarefa){
+		tarefa.setSituacao(!tarefa.getSituacao());
+		tarefasService.salvar(tarefa);
+		pesquisar();
+	}
+	
+	/**
+	 * atualiza a lista de tarefas com as condições desejadas
+	 */
+	public void pesquisar() {
+		tarefaList = tarefasService.pesquisar(pesquisaDTO);
+	}
+	
+	// Getters e Setters
+	
+	public Prioridade[] getPrioridadesEnum() {
+		return Prioridade.values();
+	}
+	
+	public List<Colaborador> getColaboradoresList() {
+		List<Colaborador> colabs = colab.getAll(); 
+		return colabs;
+	}
+	
+	public ColaboradorService getColab() {
+		return colab;
+	}
+	
+	public TarefasService getTarefasService() {
+		return tarefasService;
+	}
+
+	public void setTarefa(Tarefa tarefa) {
+		this.tarefa = tarefa;
+	}
 	public Long getIdResp() {
 		return idResp;
 	}
@@ -53,7 +140,6 @@ public class TarefaController implements Serializable{
 	public void setIdResp(Long idResp) {
 		this.idResp = idResp;
 	}
-
 
 	public Tarefa getTarefa() {
 		return tarefa;
@@ -65,64 +151,5 @@ public class TarefaController implements Serializable{
 	
 	public PesquisaDTO getPesquisaDTO() {
 		return pesquisaDTO;
-	}
-	
-	
-	public Prioridade[] getPrioridadesEnum() {
-		System.out.println("pegando enums");
-		return Prioridade.values();
-	}
-	
-	public List<Colaborador> getColaboradoresList() {
-		List<Colaborador> colabs = colab.getAll(); 
-		return colabs;
-	}
-	
-	public void novaTarefa() {
-		tarefa = new Tarefa();
-	}
-	
-	public void editarTarefa(String idS) {
-		Long id = Long.valueOf(idS);
-		tarefa = tarefasService.getId(id);
-	}
-	
-	public void disporTarefa() {
-		tarefa = null;
-	}
-
-	public String salvar() {
-		tarefa.setResponsavel(colab.getById(idResp));
-		tarefa.setSituacao(false);
-		tarefasService.salvar(tarefa);
-		return "ListTarefa?faces-redirect=true";
-	}
-	
-	public void excluir(Tarefa tarefa){
-		tarefasService.deletar(tarefa);
-		pesquisar();
-	}
-	
-	public void concluir(Tarefa tarefa){
-		tarefa.setSituacao(!tarefa.getSituacao());
-		tarefasService.salvar(tarefa);
-		pesquisar();
-	}
-	
-	public void pesquisar() {
-		tarefaList = tarefasService.pesquisar(pesquisaDTO);
-		tarefaList.forEach(c -> System.out.println(c.getTitulo()));
-	}
-
-	public ColaboradorService getColab() {
-		return colab;
-	}
-	
-	public TarefasService getTarefasService() {
-		return tarefasService;
-	}
-
-	public void setTarefa(Tarefa tarefa) {
-		this.tarefa = tarefa;
 	}
 }

@@ -2,6 +2,7 @@ package com.malyson.esig.tarefas.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
@@ -118,6 +119,11 @@ public class Tarefa implements Serializable{
 
 	public void setSituacao(Boolean situacao) {
 		this.situacao = situacao;
+	}
+	
+	public String getDeadlineString() {
+		DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
+		return deadline.format(dt);
 	}
 
 	@Override

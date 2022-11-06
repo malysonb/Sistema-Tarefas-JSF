@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="WEB-INF/template/padrao.xhtml">
+
+	<ui:define name="titulo">
+	Gerenciar Colaboradores
+</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="form">
+			<p:tabMenu activeIndex="#{param.i}">
+				<p:menuitem value="Gerenciar Tarefas" outcome="ListTarefa">
+					<f:param name="i" value="0" />
+				</p:menuitem>
+				<p:menuitem value="Gerenciar Colaboradores"
+					outcome="ListColaborador">
+					<f:param name="i" value="1" />
+				</p:menuitem>
+			</p:tabMenu>
+			<p:messages id="messages" showDetail="false" closable="true" />
+			<p:defaultCommand target="pesquisa" />
+			<h:panelGrid columns="2" id="painelForm">
+				<p:commandButton value="Cadastrar Colaborador" update="Dialog"
+					actionListener="#{colabBean.novoColab}"
+					oncomplete="PF('colabWidgetVar').show()" />
+				<p:outputLabel />
+				<p:outputLabel value="Identificador: " for="numero" />
+				<p:inputNumber id="numero" value="#{colabBean.pesquisa.id}" />
+				<p:outputLabel value="Nome: " for="nome" />
+				<p:inputText id="nome" value="#{colabBean.pesquisa.nome}"
+					style="width: 100%" />
+				<p:outputLabel value="Setor: " for="setor" />
+				<h:panelGroup>
+					<p:inputText id="setor" value="#{colabBean.pesquisa.setor}" />
+
+					<p:commandButton style="margin-left:10px;" value="Buscar Tarefas"
+						id="pesquisa" actionListener="#{colabBean.pesquisar}"
+						update="resultado messages" />
+				</h:panelGroup>
+			</h:panelGrid>
+
+			<p:dataTable showGridlines="true" value="#{colabBean.colabList}"
+				id="resultado" var="colaborador" paginator="true" rows="5"
+				paginatorPosition="bottom">
+				<p:column headerText="Número" style="width:10%; text-align: center;"
+					sortBy="#{colaborador.id}" sortOrder="desc">
+					<h:outputText value="#{colaborador.id}" />
+				</p:column>
+				<p:column headerText="setor" style="width:15%; text-align: center;">
+					<h:outputText value="#{colaborador.setor}" />
+				</p:column>
+				<p:column headerText="Nome" style="width:45%; text-align: center;">
+					<h:outputText value="#{colaborador.nome}" />
+				</p:column>
+				<p:column headerText="Ações" style="width:25%; text-align: center;">
+					<p:commandLink value="Visualizar " update=":form:colabView"
+						oncomplete="PF('colabViewVar').show()" process="@this">
+						<f:setPropertyActionListener value="#{colaborador}"
+							target="#{colabBean.colabP}" />
+						<p:resetInput target=":form:colabView" />
+					</p:commandLink>|
+					<p:commandLink value="Editar " update=":form:Dialog"
+						oncomplete="PF('colabWidgetVar').show()" process="@this">
+						<f:setPropertyActionListener value="#{colaborador}"
+							target="#{colabBean.colabP}" />
+						<p:resetInput target=":form:Dialog" />
+					</p:commandLink>|
+					<p:commandLink value="Excluir " update=":form:resultado"
+						actionListener="#{colabBean.deletar(colaborador)}" process="@this">
+					</p:commandLink>|
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog id="Dialog" positionType="fixed" header="Colaborador"
+				widgetVar="colabWidgetVar" modal="true" resizable="false"
+				closeOnEscape="true">
+				<p:defaultCommand target="salvarColab" scope="Dialog" />
+				<p:ajax event="close" update="Dialog"
+					listener="#{taBean.disporTarefa}" />
+				<p:messages id="modalMensagem" />
+				<h:panelGrid columns="2" id="modalT"
+					rendered="#{colabBean.colabP ne null}">
+					<p:outputLabel value="Nome: " for="nomeC" />
+					<p:inputText id="nomeC" value="#{colabBean.colabP.nome}"
+						style="width: 100%;" />
+
+					<p:outputLabel value="Telefone: " for="telefone" />
+					<p:inputMask id="telefone" value="#{colabBean.colabP.telefone}"
+						mask="(99) 99999-9999" validateMask="true" />
+
+					<p:outputLabel value="Setor: " for="setor" />
+					<p:inputText value="#{colabBean.colabP.setor}" />
+					<p:commandButton value="Salvar" id="salvarColab"
+						action="#{colabBean.salvar}"
+						update="resultado modalT modalMensagem"
+						oncomplete="if (!args.validationFailed) PF('colabWidgetVar').hide()" />
+				</h:panelGrid>
+			</p:dialog>
+
+			<p:dialog id="colabView" positionType="fixed" header="Colaborador"
+				widgetVar="colabViewVar" modal="true" resizable="false"
+				closeOnEscape="true">
+				<p:ajax event="close" update="colabView"
+					listener="#{colabBean.disporColab}" />
+				<p:panelGrid columns="2" id="modalView"
+					rendered="#{colabBean.colabP ne null}">
+					<p:outputLabel value="Identificador: " />
+					<p:outputLabel value="#{colabBean.colabP.id}" />
+					<p:outputLabel value="Nome: " />
+					<p:outputLabel value="#{colabBean.colabP.nome}" />
+					<p:outputLabel value="Setor: " />
+					<p:outputLabel value="#{colabBean.colabP.setor}" />
+					<p:outputLabel value="Tarefas: " />
+					<h:panelGroup>
+						<p:outputLabel value="Em andamento:"/>
+						<p:accordionPanel rendered="#{colabBean.colabP.tarefasEmAndamento ne null}" var="tarefa" value="#{colabBean.colabP.tarefasEmAndamento}"
+							style="min-width: 500px; max-width: 500px; overflow-wrap: break-word;">
+							<p:tab title="#{tarefa.titulo}">
+								<h:outputText value="#{tarefa.descricao}" />
+								<br />
+								<h:outputText value=" — Deadline: #{tarefa.deadlineString}" />
+							</p:tab>
+						</p:accordionPanel>
+						<p:outputLabel value="Concluido:"/>
+						<p:accordionPanel rendered="#{colabBean.colabP.tarefasConcluido ne null}" var="tarefa" value="#{colabBean.colabP.tarefasConcluido}"
+							style="min-width: 500px; max-width: 500px; overflow-wrap: break-word;">
+							<p:tab title="#{tarefa.titulo}">
+								<h:outputText value="#{tarefa.descricao}" />
+								<br />
+								<h:outputText value=" — Deadline: #{tarefa.deadlineString}" />
+							</p:tab>
+						</p:accordionPanel>
+					</h:panelGroup>
+				</p:panelGrid>
+			</p:dialog>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
