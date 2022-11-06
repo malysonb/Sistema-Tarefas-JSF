@@ -48,7 +48,9 @@ public class TarefaController implements Serializable{
 	 */
 	@PostConstruct
 	private void init() {
-		tarefaList = tarefasService.getAll();
+		pesquisaDTO.setSituacao(false);
+		pesquisaDTO.setDescricao("");
+		pesquisar();
 	}
 	
 	/**

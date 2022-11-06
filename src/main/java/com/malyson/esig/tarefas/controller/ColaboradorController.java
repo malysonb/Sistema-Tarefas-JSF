@@ -32,6 +32,9 @@ public class ColaboradorController implements Serializable{
 	
 	@PostConstruct
 	private void init() {
+		pesquisa.setNome("");
+		pesquisa.setSetor("");
+		pesquisa.setTelefone("");
 		colabList = colabService.getAll();
 	}
 	
