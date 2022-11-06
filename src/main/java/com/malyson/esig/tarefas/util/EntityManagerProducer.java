@@ -1,5 +1,7 @@
 package com.malyson.esig.tarefas.util;
 
+import java.util.HashMap;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Disposes;
@@ -15,7 +17,12 @@ public class EntityManagerProducer {
 	private EntityManagerFactory factory;
 	
 	public EntityManagerProducer() {
-		this.factory = Persistence.createEntityManagerFactory("TarefasPU");
+		HashMap<String,String> props=new HashMap<>();
+		props.put("jakarta.persistence.jdbc.url", "jdbc:" + System.getenv("DATABASE_URL"));
+		props.put("jakarta.persistence.jdbc.user", System.getenv("JDBC_DATABASE_USERNAME"));
+		props.put("jakarta.persistence.jdbc.password", System.getenv("JDBC_DATABASE_PASSWORD"));
+		System.out.println(System.getenv("JDBC_DATABASE_URL"));
+		this.factory = Persistence.createEntityManagerFactory("TarefasPU", props);
 	}
 	
 	@Produces
