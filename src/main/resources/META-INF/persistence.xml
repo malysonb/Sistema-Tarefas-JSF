@@ -10,9 +10,9 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://ec2-44-205-177-160.compute-1.amazonaws.com:5432/dbfr3am4jbsm80?sslmode=require" /> <!-- BD Mane -->
-            <property name="javax.persistence.jdbc.user" value="zgjtonsxwuzhrj" /> <!-- DB User -->
-            <property name="javax.persistence.jdbc.password" value="7ca44cc3e849ef70c46f2c93704780a3e8ee02beec13601f397e01fefa727e66" /> <!-- DB Password -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/tarefas" /> <!-- BD Mane -->
+            <property name="javax.persistence.jdbc.user" value="postgres" /> <!-- DB User -->
+            <property name="javax.persistence.jdbc.password" value="postgres" /> <!-- DB Password -->
             
             <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
 
