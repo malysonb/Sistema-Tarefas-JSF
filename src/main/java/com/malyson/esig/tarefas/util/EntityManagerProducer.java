@@ -18,7 +18,7 @@ public class EntityManagerProducer {
 	
 	public EntityManagerProducer() {
 		HashMap<String,String> props=new HashMap<>();
-		props.put("jakarta.persistence.jdbc.url", "jdbc:" + System.getenv("DATABASE_URL"));
+		props.put("jakarta.persistence.jdbc.url", System.getenv("JDBC_DATABASE_URL"));
 		props.put("jakarta.persistence.jdbc.user", System.getenv("JDBC_DATABASE_USERNAME"));
 		props.put("jakarta.persistence.jdbc.password", System.getenv("JDBC_DATABASE_PASSWORD"));
 		System.out.println(System.getenv("JDBC_DATABASE_URL"));
