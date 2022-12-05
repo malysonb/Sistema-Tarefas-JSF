@@ -1,6 +1,7 @@
 # Sistema de gestão de tarefas
 
 ## [Teste o sistema aqui (Heroku)](https://sistema-tarefas-esig.herokuapp.com/)
+## Heroku não mais oferece serviços gratuitos.
 
 ### <b> Ferramentas utilizadas: </b>
 
